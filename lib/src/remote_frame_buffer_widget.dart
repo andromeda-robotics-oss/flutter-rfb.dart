@@ -58,19 +58,7 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
   Option<StreamSubscription<Object?>> _streamSubscription = none();
 
   @override
-  Widget build(final BuildContext context) => _frameBuffer
-      .flatMap(
-        (final ByteData frameBuffer) => frameBuffer.buffer
-                .asUint8List(
-                  frameBuffer.offsetInBytes,
-                  frameBuffer.lengthInBytes,
-                )
-                .where((final int byte) => byte != 0)
-                .isNotEmpty
-            ? _image
-            : none<Image>(),
-      )
-      .match(
+  Widget build(final BuildContext context) => _image.match(
         _buildConnecting,
         (final Image image) => _buildImage(image: image),
       );
