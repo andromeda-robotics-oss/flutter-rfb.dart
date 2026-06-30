@@ -26,21 +26,48 @@ class RemoteFrameBufferWidget extends StatefulWidget {
   final Option<void Function(Object error)> _onError;
   final Option<String> _password;
   final int _port;
+  final Option<String> _unixSocketPath;
 
   /// Immediately tries to establish a connection to a remote server at
-  /// [hostName]:[port], optionally using [password].
+  /// [hostName]:[port] or [unixSocketPath], optionally using [password].
   RemoteFrameBufferWidget({
     super.key,
     final Widget? connectingWidget,
-    required final String hostName,
+    final String? hostName,
     final void Function(Object error)? onError,
     final String? password,
     final int port = 5900,
+    final String? unixSocketPath,
   })  : _connectingWidget = optionOf(connectingWidget),
-        _hostName = hostName,
+        _hostName = _endpointHostName(
+          hostName: hostName,
+          unixSocketPath: unixSocketPath,
+        ),
         _onError = optionOf(onError),
         _password = optionOf(password),
-        _port = port;
+        _port = port,
+        _unixSocketPath = _endpointUnixSocketPath(unixSocketPath);
+
+  static String _endpointHostName({
+    required final String? hostName,
+    required final String? unixSocketPath,
+  }) {
+    final bool hasHostName = hostName?.isNotEmpty ?? false;
+    final bool hasUnixSocketPath = unixSocketPath?.isNotEmpty ?? false;
+    if (hasHostName == hasUnixSocketPath) {
+      throw ArgumentError(
+        'Provide exactly one of hostName or unixSocketPath.',
+      );
+    }
+    return hostName ?? '';
+  }
+
+  static Option<String> _endpointUnixSocketPath(
+    final String? unixSocketPath,
+  ) =>
+      unixSocketPath == null || unixSocketPath.isEmpty
+          ? none()
+          : some(unixSocketPath);
 
   @override
   State<RemoteFrameBufferWidget> createState() =>
@@ -275,6 +302,7 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
           password: widget._password,
           port: widget._port,
           sendPort: receivePort.sendPort,
+          unixSocketPath: widget._unixSocketPath,
         ),
         onError: receivePort.sendPort,
       ),

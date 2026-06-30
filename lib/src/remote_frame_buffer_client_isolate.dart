@@ -10,7 +10,7 @@ import 'package:stream_transform/stream_transform.dart';
 /// The isolate entry point for running the RFB client in the background.
 ///
 /// [initMessage] contains the [SendPort] for communicating with the caller.
-/// It also contains the hostname and port of the server.
+/// It also contains the server connection endpoint.
 Future<void> startRemoteFrameBufferClient(
   final RemoteFrameBufferIsolateInitMessage initMessage,
 ) async {
@@ -86,6 +86,7 @@ Future<void> startRemoteFrameBufferClient(
     hostname: initMessage.hostName,
     password: initMessage.password.toNullable(),
     port: initMessage.port,
+    unixSocketPath: initMessage.unixSocketPath.toNullable(),
   );
   client
     ..handleIncomingMessages()

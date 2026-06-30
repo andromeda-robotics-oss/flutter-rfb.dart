@@ -19,6 +19,7 @@ mixin _$RemoteFrameBufferIsolateInitMessage {
   String get hostName => throw _privateConstructorUsedError;
   Option<String> get password => throw _privateConstructorUsedError;
   int get port => throw _privateConstructorUsedError;
+  Option<String> get unixSocketPath => throw _privateConstructorUsedError;
 
   /// The [SendPort] used for communicating with the caller.
   SendPort get sendPort => throw _privateConstructorUsedError;
@@ -38,7 +39,11 @@ abstract class $RemoteFrameBufferIsolateInitMessageCopyWith<$Res> {
           RemoteFrameBufferIsolateInitMessage>;
   @useResult
   $Res call(
-      {String hostName, Option<String> password, int port, SendPort sendPort});
+      {String hostName,
+      Option<String> password,
+      int port,
+      Option<String> unixSocketPath,
+      SendPort sendPort});
 }
 
 /// @nodoc
@@ -58,6 +63,7 @@ class _$RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res,
     Object? hostName = null,
     Object? password = null,
     Object? port = null,
+    Object? unixSocketPath = null,
     Object? sendPort = null,
   }) {
     return _then(_value.copyWith(
@@ -73,6 +79,10 @@ class _$RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res,
           ? _value.port
           : port // ignore: cast_nullable_to_non_nullable
               as int,
+      unixSocketPath: null == unixSocketPath
+          ? _value.unixSocketPath
+          : unixSocketPath // ignore: cast_nullable_to_non_nullable
+              as Option<String>,
       sendPort: null == sendPort
           ? _value.sendPort
           : sendPort // ignore: cast_nullable_to_non_nullable
@@ -91,7 +101,11 @@ abstract class _$$_RemoteFrameBufferIsolateInitMessageCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String hostName, Option<String> password, int port, SendPort sendPort});
+      {String hostName,
+      Option<String> password,
+      int port,
+      Option<String> unixSocketPath,
+      SendPort sendPort});
 }
 
 /// @nodoc
@@ -110,6 +124,7 @@ class __$$_RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res>
     Object? hostName = null,
     Object? password = null,
     Object? port = null,
+    Object? unixSocketPath = null,
     Object? sendPort = null,
   }) {
     return _then(_$_RemoteFrameBufferIsolateInitMessage(
@@ -125,6 +140,10 @@ class __$$_RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res>
           ? _value.port
           : port // ignore: cast_nullable_to_non_nullable
               as int,
+      unixSocketPath: null == unixSocketPath
+          ? _value.unixSocketPath
+          : unixSocketPath // ignore: cast_nullable_to_non_nullable
+              as Option<String>,
       sendPort: null == sendPort
           ? _value.sendPort
           : sendPort // ignore: cast_nullable_to_non_nullable
@@ -142,6 +161,7 @@ class _$_RemoteFrameBufferIsolateInitMessage
       {required this.hostName,
       required this.password,
       required this.port,
+      required this.unixSocketPath,
       required this.sendPort});
 
   @override
@@ -150,6 +170,8 @@ class _$_RemoteFrameBufferIsolateInitMessage
   final Option<String> password;
   @override
   final int port;
+  @override
+  final Option<String> unixSocketPath;
 
   /// The [SendPort] used for communicating with the caller.
   @override
@@ -157,7 +179,7 @@ class _$_RemoteFrameBufferIsolateInitMessage
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RemoteFrameBufferIsolateInitMessage(hostName: $hostName, password: $password, port: $port, sendPort: $sendPort)';
+    return 'RemoteFrameBufferIsolateInitMessage(hostName: $hostName, password: $password, port: $port, unixSocketPath: $unixSocketPath, sendPort: $sendPort)';
   }
 
   @override
@@ -168,6 +190,7 @@ class _$_RemoteFrameBufferIsolateInitMessage
       ..add(DiagnosticsProperty('hostName', hostName))
       ..add(DiagnosticsProperty('password', password))
       ..add(DiagnosticsProperty('port', port))
+      ..add(DiagnosticsProperty('unixSocketPath', unixSocketPath))
       ..add(DiagnosticsProperty('sendPort', sendPort));
   }
 
@@ -181,13 +204,15 @@ class _$_RemoteFrameBufferIsolateInitMessage
             (identical(other.password, password) ||
                 other.password == password) &&
             (identical(other.port, port) || other.port == port) &&
+            (identical(other.unixSocketPath, unixSocketPath) ||
+                other.unixSocketPath == unixSocketPath) &&
             (identical(other.sendPort, sendPort) ||
                 other.sendPort == sendPort));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, hostName, password, port, sendPort);
+  int get hashCode => Object.hash(
+      runtimeType, hostName, password, port, unixSocketPath, sendPort);
 
   @JsonKey(ignore: true)
   @override
@@ -204,6 +229,7 @@ abstract class _RemoteFrameBufferIsolateInitMessage
           {required final String hostName,
           required final Option<String> password,
           required final int port,
+          required final Option<String> unixSocketPath,
           required final SendPort sendPort}) =
       _$_RemoteFrameBufferIsolateInitMessage;
 
@@ -213,6 +239,8 @@ abstract class _RemoteFrameBufferIsolateInitMessage
   Option<String> get password;
   @override
   int get port;
+  @override
+  Option<String> get unixSocketPath;
   @override
 
   /// The [SendPort] used for communicating with the caller.
