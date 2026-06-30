@@ -23,12 +23,12 @@ void main() {
       ValueVariant<UpdateFrameBufferVariant>(<UpdateFrameBufferVariant>{
     UpdateFrameBufferVariant(
       expectedFrameBuffer:
-          Uint8List.fromList(<int>[1, 1, 1, 1]).buffer.asByteData(),
+          Uint8List.fromList(<int>[1, 1, 1, 255]).buffer.asByteData(),
       inputFrameBuffer:
           Uint8List.fromList(<int>[0, 0, 0, 0]).buffer.asByteData(),
       inputFrameBufferSize: const Size(1, 1),
       inputRectangle: RemoteFrameBufferClientUpdateRectangle(
-        byteData: Uint8List.fromList(<int>[1, 1, 1, 1]).buffer.asByteData(),
+        byteData: Uint8List.fromList(<int>[1, 1, 1, 0]).buffer.asByteData(),
         encodingType: const RemoteFrameBufferEncodingType.raw(),
         height: 1,
         width: 1,
@@ -41,7 +41,7 @@ void main() {
         1,
         1,
         1,
-        1,
+        255,
         0,
         0,
         0,
@@ -73,9 +73,9 @@ void main() {
         0,
         0,
       ]).buffer.asByteData(),
-      inputFrameBufferSize: const Size(1, 1),
+      inputFrameBufferSize: const Size(2, 2),
       inputRectangle: RemoteFrameBufferClientUpdateRectangle(
-        byteData: Uint8List.fromList(<int>[1, 1, 1, 1]).buffer.asByteData(),
+        byteData: Uint8List.fromList(<int>[1, 1, 1, 0]).buffer.asByteData(),
         encodingType: const RemoteFrameBufferEncodingType.raw(),
         height: 1,
         width: 1,
@@ -92,7 +92,7 @@ void main() {
         1,
         1,
         1,
-        1,
+        255,
         0,
         0,
         0,
@@ -120,9 +120,9 @@ void main() {
         0,
         0,
       ]).buffer.asByteData(),
-      inputFrameBufferSize: const Size(1, 1),
+      inputFrameBufferSize: const Size(2, 2),
       inputRectangle: RemoteFrameBufferClientUpdateRectangle(
-        byteData: Uint8List.fromList(<int>[1, 1, 1, 1]).buffer.asByteData(),
+        byteData: Uint8List.fromList(<int>[1, 1, 1, 0]).buffer.asByteData(),
         encodingType: const RemoteFrameBufferEncodingType.raw(),
         height: 1,
         width: 1,
@@ -143,7 +143,7 @@ void main() {
         1,
         1,
         1,
-        1,
+        255,
         0,
         0,
         0,
@@ -167,9 +167,9 @@ void main() {
         0,
         0,
       ]).buffer.asByteData(),
-      inputFrameBufferSize: const Size(1, 1),
+      inputFrameBufferSize: const Size(2, 2),
       inputRectangle: RemoteFrameBufferClientUpdateRectangle(
-        byteData: Uint8List.fromList(<int>[1, 1, 1, 1]).buffer.asByteData(),
+        byteData: Uint8List.fromList(<int>[1, 1, 1, 0]).buffer.asByteData(),
         encodingType: const RemoteFrameBufferEncodingType.raw(),
         height: 1,
         width: 1,
@@ -194,7 +194,7 @@ void main() {
         1,
         1,
         1,
-        1,
+        255,
       ]).buffer.asByteData(),
       inputFrameBuffer: Uint8List.fromList(<int>[
         0,
@@ -214,9 +214,9 @@ void main() {
         0,
         0,
       ]).buffer.asByteData(),
-      inputFrameBufferSize: const Size(1, 1),
+      inputFrameBufferSize: const Size(2, 2),
       inputRectangle: RemoteFrameBufferClientUpdateRectangle(
-        byteData: Uint8List.fromList(<int>[1, 1, 1, 1]).buffer.asByteData(),
+        byteData: Uint8List.fromList(<int>[1, 1, 1, 0]).buffer.asByteData(),
         encodingType: const RemoteFrameBufferEncodingType.raw(),
         height: 1,
         width: 1,
@@ -237,13 +237,10 @@ void main() {
         rectangle: updateFrameBufferVariant.currentValue!.inputRectangle,
       ).run();
       expect(
-        listEquals(
-          updateFrameBufferVariant.currentValue!.inputFrameBuffer.buffer
-              .asUint8List(),
-          updateFrameBufferVariant.currentValue!.inputFrameBuffer.buffer
-              .asUint8List(),
-        ),
-        isTrue,
+        updateFrameBufferVariant.currentValue!.inputFrameBuffer.buffer
+            .asUint8List(),
+        updateFrameBufferVariant.currentValue!.expectedFrameBuffer.buffer
+            .asUint8List(),
       );
     },
   );

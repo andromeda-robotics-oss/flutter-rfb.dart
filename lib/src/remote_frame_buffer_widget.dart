@@ -361,17 +361,30 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
   }) =>
       TaskEither<Object, void>.tryCatch(
         () async {
+          final Uint8List frameBufferBytes = frameBuffer.buffer.asUint8List(
+            frameBuffer.offsetInBytes,
+            frameBuffer.lengthInBytes,
+          );
+          final Uint8List rectangleBytes =
+              rectangle.byteData.buffer.asUint8List(
+            rectangle.byteData.offsetInBytes,
+            rectangle.byteData.lengthInBytes,
+          );
+          final int frameBufferWidth = frameBufferSize.width.toInt();
           for (int y = 0; y < rectangle.height; y++) {
             for (int x = 0; x < rectangle.width; x++) {
               final int frameBufferX = rectangle.x + x;
               final int frameBufferY = rectangle.y + y;
-              final int pixelBytes =
-                  rectangle.byteData.getUint32((y * rectangle.width + x) * 4);
-              frameBuffer.setUint32(
-                ((frameBufferY * frameBufferSize.width + frameBufferX) * 4)
-                    .toInt(),
-                pixelBytes,
-              );
+              final int rectangleByteOffset = (y * rectangle.width + x) * 4;
+              final int frameBufferByteOffset =
+                  (frameBufferY * frameBufferWidth + frameBufferX) * 4;
+              frameBufferBytes[frameBufferByteOffset] =
+                  rectangleBytes[rectangleByteOffset];
+              frameBufferBytes[frameBufferByteOffset + 1] =
+                  rectangleBytes[rectangleByteOffset + 1];
+              frameBufferBytes[frameBufferByteOffset + 2] =
+                  rectangleBytes[rectangleByteOffset + 2];
+              frameBufferBytes[frameBufferByteOffset + 3] = 0xff;
             }
           }
         },
