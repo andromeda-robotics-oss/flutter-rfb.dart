@@ -1,33 +1,69 @@
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
-/// Widget that exposes its child's size via a [ValueNotifier].
-///
-/// Inspired by: https://stackoverflow.com/a/58004112/373138
-class SizeTrackingWidget extends StatefulWidget {
-  final Widget _child;
+/// Widget that exposes its child's laid-out size via a [ValueNotifier].
+class SizeTrackingWidget extends SingleChildRenderObjectWidget {
   final ValueNotifier<Size> _sizeValueNotifier;
 
   const SizeTrackingWidget({
     super.key,
     required final ValueNotifier<Size> sizeValueNotifier,
     required final Widget child,
-  })  : _child = child,
-        _sizeValueNotifier = sizeValueNotifier;
+  })  : _sizeValueNotifier = sizeValueNotifier,
+        super(child: child);
 
   @override
-  State<StatefulWidget> createState() => _SizeTackingState();
+  RenderObject createRenderObject(final BuildContext context) =>
+      _SizeTrackingRenderObject(sizeValueNotifier: _sizeValueNotifier);
+
+  @override
+  void updateRenderObject(
+    final BuildContext context,
+    final RenderObject renderObject,
+  ) =>
+      (renderObject as _SizeTrackingRenderObject).updateSizeValueNotifier(
+        _sizeValueNotifier,
+      );
 }
 
-class _SizeTackingState extends State<SizeTrackingWidget> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((final _) {
-      widget._sizeValueNotifier.value =
-          (context.findRenderObject() as RenderBox?)!.size;
-    });
+class _SizeTrackingRenderObject extends RenderProxyBox {
+  ValueNotifier<Size> _sizeValueNotifier;
+  Size? _pendingSize;
+
+  _SizeTrackingRenderObject({
+    required final ValueNotifier<Size> sizeValueNotifier,
+  }) : _sizeValueNotifier = sizeValueNotifier;
+
+  void updateSizeValueNotifier(final ValueNotifier<Size> value) {
+    if (_sizeValueNotifier == value) {
+      return;
+    }
+    _sizeValueNotifier = value;
+    _scheduleSizeNotification();
   }
 
   @override
-  Widget build(final BuildContext context) => widget._child;
+  void performLayout() {
+    super.performLayout();
+    _scheduleSizeNotification();
+  }
+
+  void _scheduleSizeNotification() {
+    if (!hasSize || _sizeValueNotifier.value == size || _pendingSize == size) {
+      return;
+    }
+
+    final Size scheduledSize = size;
+    _pendingSize = scheduledSize;
+    WidgetsBinding.instance.addPostFrameCallback((final _) {
+      if (_pendingSize != scheduledSize) {
+        return;
+      }
+
+      _pendingSize = null;
+      if (_sizeValueNotifier.value != scheduledSize) {
+        _sizeValueNotifier.value = scheduledSize;
+      }
+    });
+  }
 }

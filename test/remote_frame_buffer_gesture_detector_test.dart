@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_rfb/src/child_size_notifier_widget.dart';
 import 'package:flutter_rfb/src/remote_frame_buffer_gesture_detector.dart';
 import 'package:flutter_rfb/src/remote_frame_buffer_isolate_messages.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -49,6 +50,57 @@ void main() {
     expect(pointerEvent.button1Down, isFalse);
     expect(pointerEvent.button2Down, isFalse);
     expect(pointerEvent.button3Down, isFalse);
+    expect(pointerEvent.x, 50);
+    expect(pointerEvent.y, 20);
+  });
+
+  testWidgets('uses the measured widget size after first layout', (
+    final WidgetTester tester,
+  ) async {
+    const Key trackingKey = Key('tracked-size');
+    final ValueNotifier<Size> sizeNotifier = ValueNotifier<Size>(Size.zero);
+    await tester.pumpWidget(
+      Center(
+        child: SizedBox(
+          width: 100,
+          height: 50,
+          child: SizeTrackingWidget(
+            key: trackingKey,
+            sizeValueNotifier: sizeNotifier,
+            child: ValueListenableBuilder<Size>(
+              valueListenable: sizeNotifier,
+              child: RawImage(image: image),
+              builder: (
+                final BuildContext context,
+                final Size remoteFrameBufferWidgetSize,
+                final Widget? child,
+              ) =>
+                  RemoteFrameBufferGestureDetector(
+                image: image,
+                remoteFrameBufferWidgetSize: remoteFrameBufferWidgetSize,
+                sendPort: some(receivePort.sendPort),
+                child: child!,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    final TestGesture gesture = await tester.createGesture(
+      kind: ui.PointerDeviceKind.mouse,
+    );
+    final Offset topLeft = tester.getTopLeft(find.byKey(trackingKey));
+    await gesture.addPointer(location: topLeft);
+    await gesture.moveTo(topLeft + const Offset(25, 10));
+
+    final RemoteFrameBufferIsolateSendMessagePointerEvent pointerEvent =
+        await _nextPointerEvent(
+      tester: tester,
+      messages: messages,
+    );
+    expect(sizeNotifier.value, widgetSize);
     expect(pointerEvent.x, 50);
     expect(pointerEvent.y, 20);
   });
