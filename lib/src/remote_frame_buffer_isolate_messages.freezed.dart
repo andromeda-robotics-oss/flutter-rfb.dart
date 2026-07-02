@@ -265,28 +265,20 @@ abstract class _RemoteFrameBufferIsolateInitMessage
 
 /// @nodoc
 mixin _$RemoteFrameBufferIsolateReceiveMessage {
+  String get text => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String text) clipBoardUpdate,
-    required TResult Function(int frameBufferHeight, int frameBufferWidth,
-            SendPort sendPort, RemoteFrameBufferClientUpdate update)
-        frameBufferUpdate,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String text)? clipBoardUpdate,
-    TResult? Function(int frameBufferHeight, int frameBufferWidth,
-            SendPort sendPort, RemoteFrameBufferClientUpdate update)?
-        frameBufferUpdate,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String text)? clipBoardUpdate,
-    TResult Function(int frameBufferHeight, int frameBufferWidth,
-            SendPort sendPort, RemoteFrameBufferClientUpdate update)?
-        frameBufferUpdate,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -295,9 +287,6 @@ mixin _$RemoteFrameBufferIsolateReceiveMessage {
     required TResult Function(
             RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate value)
         clipBoardUpdate,
-    required TResult Function(
-            RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate value)
-        frameBufferUpdate,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -305,9 +294,6 @@ mixin _$RemoteFrameBufferIsolateReceiveMessage {
     TResult? Function(
             RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate value)?
         clipBoardUpdate,
-    TResult? Function(
-            RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate value)?
-        frameBufferUpdate,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -315,12 +301,16 @@ mixin _$RemoteFrameBufferIsolateReceiveMessage {
     TResult Function(
             RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate value)?
         clipBoardUpdate,
-    TResult Function(
-            RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate value)?
-        frameBufferUpdate,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Create a copy of RemoteFrameBufferIsolateReceiveMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RemoteFrameBufferIsolateReceiveMessageCopyWith<
+          RemoteFrameBufferIsolateReceiveMessage>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -330,6 +320,8 @@ abstract class $RemoteFrameBufferIsolateReceiveMessageCopyWith<$Res> {
           $Res Function(RemoteFrameBufferIsolateReceiveMessage) then) =
       _$RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res,
           RemoteFrameBufferIsolateReceiveMessage>;
+  @useResult
+  $Res call({String text});
 }
 
 /// @nodoc
@@ -345,11 +337,23 @@ class _$RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res,
 
   /// Create a copy of RemoteFrameBufferIsolateReceiveMessage
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? text = null,
+  }) {
+    return _then(_value.copyWith(
+      text: null == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
 abstract class _$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImplCopyWith<
-    $Res> {
+    $Res> implements $RemoteFrameBufferIsolateReceiveMessageCopyWith<$Res> {
   factory _$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImplCopyWith(
           _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl value,
           $Res Function(
@@ -357,6 +361,7 @@ abstract class _$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImplCopyW
               then) =
       __$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImplCopyWithImpl<
           $Res>;
+  @override
   @useResult
   $Res call({String text});
 }
@@ -444,9 +449,6 @@ class _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String text) clipBoardUpdate,
-    required TResult Function(int frameBufferHeight, int frameBufferWidth,
-            SendPort sendPort, RemoteFrameBufferClientUpdate update)
-        frameBufferUpdate,
   }) {
     return clipBoardUpdate(text);
   }
@@ -455,9 +457,6 @@ class _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String text)? clipBoardUpdate,
-    TResult? Function(int frameBufferHeight, int frameBufferWidth,
-            SendPort sendPort, RemoteFrameBufferClientUpdate update)?
-        frameBufferUpdate,
   }) {
     return clipBoardUpdate?.call(text);
   }
@@ -466,9 +465,6 @@ class _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String text)? clipBoardUpdate,
-    TResult Function(int frameBufferHeight, int frameBufferWidth,
-            SendPort sendPort, RemoteFrameBufferClientUpdate update)?
-        frameBufferUpdate,
     required TResult orElse(),
   }) {
     if (clipBoardUpdate != null) {
@@ -483,9 +479,6 @@ class _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl
     required TResult Function(
             RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate value)
         clipBoardUpdate,
-    required TResult Function(
-            RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate value)
-        frameBufferUpdate,
   }) {
     return clipBoardUpdate(this);
   }
@@ -496,9 +489,6 @@ class _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl
     TResult? Function(
             RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate value)?
         clipBoardUpdate,
-    TResult? Function(
-            RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate value)?
-        frameBufferUpdate,
   }) {
     return clipBoardUpdate?.call(this);
   }
@@ -509,9 +499,6 @@ class _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl
     TResult Function(
             RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate value)?
         clipBoardUpdate,
-    TResult Function(
-            RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate value)?
-        frameBufferUpdate,
     required TResult orElse(),
   }) {
     if (clipBoardUpdate != null) {
@@ -527,263 +514,15 @@ abstract class RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate
           {required final String text}) =
       _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl;
 
+  @override
   String get text;
 
   /// Create a copy of RemoteFrameBufferIsolateReceiveMessage
   /// with the given fields replaced by the non-null parameter values.
+  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImplCopyWith<
           _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImplCopyWith<
-    $Res> {
-  factory _$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImplCopyWith(
-          _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl value,
-          $Res Function(
-                  _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl)
-              then) =
-      __$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImplCopyWithImpl<
-          $Res>;
-  @useResult
-  $Res call(
-      {int frameBufferHeight,
-      int frameBufferWidth,
-      SendPort sendPort,
-      RemoteFrameBufferClientUpdate update});
-
-  $RemoteFrameBufferClientUpdateCopyWith<$Res> get update;
-}
-
-/// @nodoc
-class __$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImplCopyWithImpl<
-        $Res>
-    extends _$RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res,
-        _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl>
-    implements
-        _$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImplCopyWith<
-            $Res> {
-  __$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImplCopyWithImpl(
-      _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl _value,
-      $Res Function(
-              _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl)
-          _then)
-      : super(_value, _then);
-
-  /// Create a copy of RemoteFrameBufferIsolateReceiveMessage
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? frameBufferHeight = null,
-    Object? frameBufferWidth = null,
-    Object? sendPort = null,
-    Object? update = null,
-  }) {
-    return _then(_$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl(
-      frameBufferHeight: null == frameBufferHeight
-          ? _value.frameBufferHeight
-          : frameBufferHeight // ignore: cast_nullable_to_non_nullable
-              as int,
-      frameBufferWidth: null == frameBufferWidth
-          ? _value.frameBufferWidth
-          : frameBufferWidth // ignore: cast_nullable_to_non_nullable
-              as int,
-      sendPort: null == sendPort
-          ? _value.sendPort
-          : sendPort // ignore: cast_nullable_to_non_nullable
-              as SendPort,
-      update: null == update
-          ? _value.update
-          : update // ignore: cast_nullable_to_non_nullable
-              as RemoteFrameBufferClientUpdate,
-    ));
-  }
-
-  /// Create a copy of RemoteFrameBufferIsolateReceiveMessage
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $RemoteFrameBufferClientUpdateCopyWith<$Res> get update {
-    return $RemoteFrameBufferClientUpdateCopyWith<$Res>(_value.update, (value) {
-      return _then(_value.copyWith(update: value));
-    });
-  }
-}
-
-/// @nodoc
-
-class _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl
-    with DiagnosticableTreeMixin
-    implements RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate {
-  const _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl(
-      {required this.frameBufferHeight,
-      required this.frameBufferWidth,
-      required this.sendPort,
-      required this.update});
-
-  @override
-  final int frameBufferHeight;
-  @override
-  final int frameBufferWidth;
-  @override
-  final SendPort sendPort;
-  @override
-  final RemoteFrameBufferClientUpdate update;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RemoteFrameBufferIsolateReceiveMessage.frameBufferUpdate(frameBufferHeight: $frameBufferHeight, frameBufferWidth: $frameBufferWidth, sendPort: $sendPort, update: $update)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty(
-          'type', 'RemoteFrameBufferIsolateReceiveMessage.frameBufferUpdate'))
-      ..add(DiagnosticsProperty('frameBufferHeight', frameBufferHeight))
-      ..add(DiagnosticsProperty('frameBufferWidth', frameBufferWidth))
-      ..add(DiagnosticsProperty('sendPort', sendPort))
-      ..add(DiagnosticsProperty('update', update));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other
-                is _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl &&
-            (identical(other.frameBufferHeight, frameBufferHeight) ||
-                other.frameBufferHeight == frameBufferHeight) &&
-            (identical(other.frameBufferWidth, frameBufferWidth) ||
-                other.frameBufferWidth == frameBufferWidth) &&
-            (identical(other.sendPort, sendPort) ||
-                other.sendPort == sendPort) &&
-            (identical(other.update, update) || other.update == update));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, frameBufferHeight, frameBufferWidth, sendPort, update);
-
-  /// Create a copy of RemoteFrameBufferIsolateReceiveMessage
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImplCopyWith<
-          _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl>
-      get copyWith =>
-          __$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImplCopyWithImpl<
-                  _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl>(
-              this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String text) clipBoardUpdate,
-    required TResult Function(int frameBufferHeight, int frameBufferWidth,
-            SendPort sendPort, RemoteFrameBufferClientUpdate update)
-        frameBufferUpdate,
-  }) {
-    return frameBufferUpdate(
-        frameBufferHeight, frameBufferWidth, sendPort, update);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String text)? clipBoardUpdate,
-    TResult? Function(int frameBufferHeight, int frameBufferWidth,
-            SendPort sendPort, RemoteFrameBufferClientUpdate update)?
-        frameBufferUpdate,
-  }) {
-    return frameBufferUpdate?.call(
-        frameBufferHeight, frameBufferWidth, sendPort, update);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String text)? clipBoardUpdate,
-    TResult Function(int frameBufferHeight, int frameBufferWidth,
-            SendPort sendPort, RemoteFrameBufferClientUpdate update)?
-        frameBufferUpdate,
-    required TResult orElse(),
-  }) {
-    if (frameBufferUpdate != null) {
-      return frameBufferUpdate(
-          frameBufferHeight, frameBufferWidth, sendPort, update);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(
-            RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate value)
-        clipBoardUpdate,
-    required TResult Function(
-            RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate value)
-        frameBufferUpdate,
-  }) {
-    return frameBufferUpdate(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(
-            RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate value)?
-        clipBoardUpdate,
-    TResult? Function(
-            RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate value)?
-        frameBufferUpdate,
-  }) {
-    return frameBufferUpdate?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(
-            RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate value)?
-        clipBoardUpdate,
-    TResult Function(
-            RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate value)?
-        frameBufferUpdate,
-    required TResult orElse(),
-  }) {
-    if (frameBufferUpdate != null) {
-      return frameBufferUpdate(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate
-    implements RemoteFrameBufferIsolateReceiveMessage {
-  const factory RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate(
-          {required final int frameBufferHeight,
-          required final int frameBufferWidth,
-          required final SendPort sendPort,
-          required final RemoteFrameBufferClientUpdate update}) =
-      _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl;
-
-  int get frameBufferHeight;
-  int get frameBufferWidth;
-  SendPort get sendPort;
-  RemoteFrameBufferClientUpdate get update;
-
-  /// Create a copy of RemoteFrameBufferIsolateReceiveMessage
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImplCopyWith<
-          _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 

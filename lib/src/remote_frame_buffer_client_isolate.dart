@@ -30,7 +30,7 @@ Future<void> startRemoteFrameBufferClient(
   client.updateStream.listen(
     (final RemoteFrameBufferClientUpdate update) {
       initMessage.sendPort.send(
-        RemoteFrameBufferIsolateReceiveMessage.frameBufferUpdate(
+        RemoteFrameBufferIsolateFrameBufferUpdate.fromClientUpdate(
           frameBufferHeight: client.config
               .map((final Config config) => config.frameBufferHeight)
               .getOrElse(() => 0),
