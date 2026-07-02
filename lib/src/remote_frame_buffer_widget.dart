@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:isolate';
-import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:dart_rfb/dart_rfb.dart';
@@ -129,7 +128,11 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
         sizeValueNotifier: _sizeValueNotifier,
         child: ValueListenableBuilder<Size>(
           valueListenable: _sizeValueNotifier,
-          child: RawImage(image: image),
+          child: RepaintBoundary(
+            child: RawImage(
+              image: image,
+            ),
+          ),
           builder: (
             final BuildContext context,
             final Size remoteFrameBufferWidgetSize,
@@ -144,123 +147,108 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
         ),
       );
 
-  void _decodeAndUpdateImage({
+  Future<void> _decodeAndUpdateImage({
     required final ByteData frameBuffer,
     required final RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate
         message,
-  }) =>
-      decodeImageFromPixels(
-        frameBuffer.buffer.asUint8List(),
-        message.frameBufferWidth,
-        message.frameBufferHeight,
-        PixelFormat.bgra8888,
-        (final Image result) {
-          if (mounted) {
-            setState(
-              () {
-                _image.match(
-                  () {},
-                  (final Image image) => image.dispose(),
-                );
-                _image = some(result);
-              },
-            );
-            _isolateSendPort.match(
-              () {},
-              (final SendPort sendPort) => sendPort.send(
-                const RemoteFrameBufferIsolateSendMessage
-                    .frameBufferUpdateRequest(),
-              ),
-            );
-          }
-        },
-      );
+  }) async {
+    final Image result = await _decodeFrameBufferImage(
+      frameBufferHeight: message.frameBufferHeight,
+      frameBufferWidth: message.frameBufferWidth,
+      pixels: _asUint8List(frameBuffer),
+    );
+    if (!mounted) {
+      result.dispose();
+      return;
+    }
 
-  Task<void> _handleFrameBufferUpdateMessage({
+    setState(
+      () {
+        _image.match(
+          () {},
+          (final Image image) => image.dispose(),
+        );
+        _image = some(result);
+      },
+    );
+    _requestFrameBufferUpdate();
+  }
+
+  static Future<Image> _decodeFrameBufferImage({
+    required final int frameBufferHeight,
+    required final int frameBufferWidth,
+    required final Uint8List pixels,
+  }) async {
+    final ImmutableBuffer buffer = await ImmutableBuffer.fromUint8List(pixels);
+    final ImageDescriptor descriptor = ImageDescriptor.raw(
+      buffer,
+      height: frameBufferHeight,
+      pixelFormat: PixelFormat.bgra8888,
+      width: frameBufferWidth,
+    );
+    try {
+      final Codec codec = await descriptor.instantiateCodec();
+      try {
+        final FrameInfo frameInfo = await codec.getNextFrame();
+        return frameInfo.image;
+      } finally {
+        codec.dispose();
+      }
+    } finally {
+      descriptor.dispose();
+      buffer.dispose();
+    }
+  }
+
+  Future<void> _handleFrameBufferUpdateMessage({
     required final RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate
         update,
-  }) =>
-      Task<void>(() async {
-        _logger.finer(
-          'Received new update message with ${update.update.rectangles.length} rectangles',
-        );
-        _isolateSendPort = some(update.sendPort);
-        if (_frameBuffer.isNone()) {
-          _frameBuffer = some(
-            ByteData(
-              update.frameBufferHeight * update.frameBufferWidth * 4,
-            ),
-          );
-        }
-        unawaited(
-          _frameBuffer.match(
-            () async {},
-            (final ByteData frameBuffer) async {
-              for (final RemoteFrameBufferClientUpdateRectangle rectangle
-                  in update.update.rectangles) {
-                await rectangle.encodingType.when(
-                  copyRect: () async {
-                    final int sourceX = rectangle.byteData.getUint16(0);
-                    final int sourceY = rectangle.byteData.getUint16(2);
-                    final BytesBuilder bytesBuilder = BytesBuilder();
-                    for (int row = 0; row < rectangle.height; row++) {
-                      for (int column = 0; column < rectangle.width; column++) {
-                        bytesBuilder.add(
-                          frameBuffer.buffer.asUint8List(
-                            ((sourceY + row) * update.frameBufferWidth +
-                                    sourceX +
-                                    column) *
-                                4,
-                            4,
-                          ),
-                        );
-                      }
-                    }
-                    return (await updateFrameBuffer(
-                      frameBuffer: frameBuffer,
-                      frameBufferSize: Size(
-                        update.frameBufferWidth.toDouble(),
-                        update.frameBufferHeight.toDouble(),
-                      ),
-                      rectangle: rectangle.copyWith(
-                        encodingType: const RemoteFrameBufferEncodingType.raw(),
-                        byteData: ByteData.sublistView(
-                          bytesBuilder.toBytes(),
-                        ),
-                      ),
-                    ).run())
-                        .match(
-                      (final Object error) =>
-                          // ignore: avoid_print
-                          print('Error updating frame buffer: $error'),
-                      (final _) {},
-                    );
-                  },
-                  raw: () async => (await updateFrameBuffer(
-                    frameBuffer: frameBuffer,
-                    frameBufferSize: Size(
-                      update.frameBufferWidth.toDouble(),
-                      update.frameBufferHeight.toDouble(),
-                    ),
-                    rectangle: rectangle,
-                  ).run())
-                      .match(
-                    (final Object error) =>
-                        // ignore: avoid_print
-                        print('Error updating frame buffer: $error'),
-                    (final _) {},
-                  ),
-                  unsupported: (final ByteData bytes) async {},
-                );
-              }
-              _decodeAndUpdateImage(
-                frameBuffer: frameBuffer,
-                message: update,
-              );
-            },
+  }) async {
+    _logger.finer(
+      'Received new update message with '
+      '${update.update.rectangles.length} rectangles',
+    );
+    _isolateSendPort = some(update.sendPort);
+    if (_frameBuffer.isNone()) {
+      _frameBuffer = some(
+        ByteData(
+          update.frameBufferHeight * update.frameBufferWidth * 4,
+        ),
+      );
+    }
+
+    final ByteData frameBuffer = _frameBuffer.getOrElse(
+      () => throw StateError('Frame buffer is not available'),
+    );
+    try {
+      for (final RemoteFrameBufferClientUpdateRectangle rectangle
+          in update.update.rectangles) {
+        _applyUpdateRectangle(
+          frameBuffer: frameBuffer,
+          frameBufferSize: Size(
+            update.frameBufferWidth.toDouble(),
+            update.frameBufferHeight.toDouble(),
           ),
+          rectangle: rectangle,
         );
-      });
+      }
+      await _decodeAndUpdateImage(
+        frameBuffer: frameBuffer,
+        message: update,
+      );
+    } on Object catch (error, stackTrace) {
+      _logger.warning('Error updating frame buffer', error, stackTrace);
+    }
+  }
+
+  void _requestFrameBufferUpdate() {
+    _isolateSendPort.match(
+      () {},
+      (final SendPort sendPort) => sendPort.send(
+        const RemoteFrameBufferIsolateSendMessage.frameBufferUpdateRequest(),
+      ),
+    );
+  }
 
   /// Initializes logic that requires to be run asynchronous.
   Future<void> _initAsync() async {
@@ -280,13 +268,16 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
               clipBoardUpdate: (
                 final RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate
                     update,
-              ) =>
+              ) {
+                unawaited(
                   Clipboard.setData(ClipboardData(text: update.text)),
+                );
+              },
               frameBufferUpdate: (
                 final RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate
                     update,
               ) {
-                _handleFrameBufferUpdateMessage(update: update).run();
+                unawaited(_handleFrameBufferUpdateMessage(update: update));
               },
             );
           }
@@ -361,33 +352,120 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
   }) =>
       TaskEither<Object, void>.tryCatch(
         () async {
-          final Uint8List frameBufferBytes = frameBuffer.buffer.asUint8List(
-            frameBuffer.offsetInBytes,
-            frameBuffer.lengthInBytes,
+          _applyUpdateRectangle(
+            frameBuffer: frameBuffer,
+            frameBufferSize: frameBufferSize,
+            rectangle: rectangle,
           );
-          final Uint8List rectangleBytes =
-              rectangle.byteData.buffer.asUint8List(
-            rectangle.byteData.offsetInBytes,
-            rectangle.byteData.lengthInBytes,
-          );
-          final int frameBufferWidth = frameBufferSize.width.toInt();
-          for (int y = 0; y < rectangle.height; y++) {
-            for (int x = 0; x < rectangle.width; x++) {
-              final int frameBufferX = rectangle.x + x;
-              final int frameBufferY = rectangle.y + y;
-              final int rectangleByteOffset = (y * rectangle.width + x) * 4;
-              final int frameBufferByteOffset =
-                  (frameBufferY * frameBufferWidth + frameBufferX) * 4;
-              frameBufferBytes[frameBufferByteOffset] =
-                  rectangleBytes[rectangleByteOffset];
-              frameBufferBytes[frameBufferByteOffset + 1] =
-                  rectangleBytes[rectangleByteOffset + 1];
-              frameBufferBytes[frameBufferByteOffset + 2] =
-                  rectangleBytes[rectangleByteOffset + 2];
-              frameBufferBytes[frameBufferByteOffset + 3] = 0xff;
-            }
-          }
         },
         (final Object error, final _) => error,
       );
+
+  static void _applyUpdateRectangle({
+    required final ByteData frameBuffer,
+    required final Size frameBufferSize,
+    required final RemoteFrameBufferClientUpdateRectangle rectangle,
+  }) {
+    rectangle.encodingType.when(
+      copyRect: () {
+        _copyFrameBufferRectangle(
+          destinationX: rectangle.x,
+          destinationY: rectangle.y,
+          frameBuffer: frameBuffer,
+          frameBufferSize: frameBufferSize,
+          height: rectangle.height,
+          sourceX: rectangle.byteData.getUint16(0),
+          sourceY: rectangle.byteData.getUint16(2),
+          width: rectangle.width,
+        );
+      },
+      raw: () {
+        _writeRawRectangle(
+          frameBuffer: frameBuffer,
+          frameBufferSize: frameBufferSize,
+          rectangle: rectangle,
+        );
+      },
+      unsupported: (final ByteData bytes) {},
+    );
+  }
+
+  static Uint8List _asUint8List(final ByteData byteData) =>
+      byteData.buffer.asUint8List(
+        byteData.offsetInBytes,
+        byteData.lengthInBytes,
+      );
+
+  static void _copyFrameBufferRectangle({
+    required final int destinationX,
+    required final int destinationY,
+    required final ByteData frameBuffer,
+    required final Size frameBufferSize,
+    required final int height,
+    required final int sourceX,
+    required final int sourceY,
+    required final int width,
+  }) {
+    final Uint8List frameBufferBytes = _asUint8List(frameBuffer);
+    final int frameBufferWidth = frameBufferSize.width.toInt();
+    final int rowByteLength = width * 4;
+    final int startRow = destinationY > sourceY ? height - 1 : 0;
+    final int endRow = destinationY > sourceY ? -1 : height;
+    final int step = destinationY > sourceY ? -1 : 1;
+    for (int row = startRow; row != endRow; row += step) {
+      final int sourceStart =
+          ((sourceY + row) * frameBufferWidth + sourceX) * 4;
+      final int destinationStart =
+          ((destinationY + row) * frameBufferWidth + destinationX) * 4;
+      frameBufferBytes.setRange(
+        destinationStart,
+        destinationStart + rowByteLength,
+        frameBufferBytes,
+        sourceStart,
+      );
+      _forceOpaqueAlpha(
+        bytes: frameBufferBytes,
+        start: destinationStart,
+        length: rowByteLength,
+      );
+    }
+  }
+
+  static void _writeRawRectangle({
+    required final ByteData frameBuffer,
+    required final Size frameBufferSize,
+    required final RemoteFrameBufferClientUpdateRectangle rectangle,
+  }) {
+    final Uint8List frameBufferBytes = _asUint8List(frameBuffer);
+    final Uint8List rectangleBytes = _asUint8List(rectangle.byteData);
+    final int frameBufferWidth = frameBufferSize.width.toInt();
+    final int rowByteLength = rectangle.width * 4;
+    for (int row = 0; row < rectangle.height; row++) {
+      final int sourceStart = row * rowByteLength;
+      final int destinationStart =
+          ((rectangle.y + row) * frameBufferWidth + rectangle.x) * 4;
+      frameBufferBytes.setRange(
+        destinationStart,
+        destinationStart + rowByteLength,
+        rectangleBytes,
+        sourceStart,
+      );
+      _forceOpaqueAlpha(
+        bytes: frameBufferBytes,
+        start: destinationStart,
+        length: rowByteLength,
+      );
+    }
+  }
+
+  static void _forceOpaqueAlpha({
+    required final Uint8List bytes,
+    required final int length,
+    required final int start,
+  }) {
+    final int end = start + length;
+    for (int offset = start + 3; offset < end; offset += 4) {
+      bytes[offset] = 0xff;
+    }
+  }
 }

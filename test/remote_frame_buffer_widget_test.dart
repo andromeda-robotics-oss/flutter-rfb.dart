@@ -244,4 +244,52 @@ void main() {
       );
     },
   );
+
+  testWidgets('updateFrameBuffer(...) handles overlapping copyRect updates', (
+    final _,
+  ) async {
+    final ByteData frameBuffer = Uint8List.fromList(<int>[
+      ..._pixel(1),
+      ..._pixel(2),
+      ..._pixel(3),
+      ..._pixel(4),
+      ..._pixel(0),
+      ..._pixel(0),
+    ]).buffer.asByteData();
+
+    await RemoteFrameBufferWidgetState.updateFrameBuffer(
+      frameBuffer: frameBuffer,
+      frameBufferSize: const Size(2, 3),
+      rectangle: RemoteFrameBufferClientUpdateRectangle(
+        byteData: _copyRectSourceBytes(x: 0, y: 0),
+        encodingType: const RemoteFrameBufferEncodingType.copyRect(),
+        height: 2,
+        width: 2,
+        x: 0,
+        y: 1,
+      ),
+    ).run();
+
+    expect(
+      frameBuffer.buffer.asUint8List(),
+      Uint8List.fromList(<int>[
+        ..._pixel(1),
+        ..._pixel(2),
+        ..._pixel(1),
+        ..._pixel(2),
+        ..._pixel(3),
+        ..._pixel(4),
+      ]),
+    );
+  });
 }
+
+ByteData _copyRectSourceBytes({
+  required final int x,
+  required final int y,
+}) =>
+    ByteData(4)
+      ..setUint16(0, x)
+      ..setUint16(2, y);
+
+List<int> _pixel(final int value) => <int>[value, value, value, 0xff];
