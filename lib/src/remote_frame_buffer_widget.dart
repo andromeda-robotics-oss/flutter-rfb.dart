@@ -149,12 +149,12 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
 
   Future<void> _decodeAndUpdateImage({
     required final ByteData frameBuffer,
-    required final RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate
-        message,
+    required final int frameBufferHeight,
+    required final int frameBufferWidth,
   }) async {
     final Image result = await _decodeFrameBufferImage(
-      frameBufferHeight: message.frameBufferHeight,
-      frameBufferWidth: message.frameBufferWidth,
+      frameBufferHeight: frameBufferHeight,
+      frameBufferWidth: frameBufferWidth,
       pixels: _asUint8List(frameBuffer),
     );
     if (!mounted) {
@@ -201,18 +201,20 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
   }
 
   Future<void> _handleFrameBufferUpdateMessage({
-    required final RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate
-        update,
+    required final int frameBufferHeight,
+    required final int frameBufferWidth,
+    required final int rectangleCount,
+    required final Iterable<RemoteFrameBufferClientUpdateRectangle> rectangles,
+    required final SendPort sendPort,
   }) async {
     _logger.finer(
-      'Received new update message with '
-      '${update.update.rectangles.length} rectangles',
+      'Received new update message with $rectangleCount rectangles',
     );
-    _isolateSendPort = some(update.sendPort);
+    _isolateSendPort = some(sendPort);
     if (_frameBuffer.isNone()) {
       _frameBuffer = some(
         ByteData(
-          update.frameBufferHeight * update.frameBufferWidth * 4,
+          frameBufferHeight * frameBufferWidth * 4,
         ),
       );
     }
@@ -222,19 +224,20 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
     );
     try {
       for (final RemoteFrameBufferClientUpdateRectangle rectangle
-          in update.update.rectangles) {
+          in rectangles) {
         _applyUpdateRectangle(
           frameBuffer: frameBuffer,
           frameBufferSize: Size(
-            update.frameBufferWidth.toDouble(),
-            update.frameBufferHeight.toDouble(),
+            frameBufferWidth.toDouble(),
+            frameBufferHeight.toDouble(),
           ),
           rectangle: rectangle,
         );
       }
       await _decodeAndUpdateImage(
         frameBuffer: frameBuffer,
-        message: update,
+        frameBufferHeight: frameBufferHeight,
+        frameBufferWidth: frameBufferWidth,
       );
     } on Object catch (error, stackTrace) {
       _logger.warning('Error updating frame buffer', error, stackTrace);
@@ -263,6 +266,16 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
               (final void Function(Object error) onError) =>
                   onError(message.first),
             );
+          } else if (message is RemoteFrameBufferIsolateFrameBufferUpdate) {
+            unawaited(
+              _handleFrameBufferUpdateMessage(
+                frameBufferHeight: message.frameBufferHeight,
+                frameBufferWidth: message.frameBufferWidth,
+                rectangleCount: message.rectangles.length,
+                rectangles: message.materializeRectangles(),
+                sendPort: message.sendPort,
+              ),
+            );
           } else if (message is RemoteFrameBufferIsolateReceiveMessage) {
             message.map(
               clipBoardUpdate: (
@@ -272,12 +285,6 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
                 unawaited(
                   Clipboard.setData(ClipboardData(text: update.text)),
                 );
-              },
-              frameBufferUpdate: (
-                final RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate
-                    update,
-              ) {
-                unawaited(_handleFrameBufferUpdateMessage(update: update));
               },
             );
           }

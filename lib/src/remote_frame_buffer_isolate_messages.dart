@@ -29,13 +29,123 @@ class RemoteFrameBufferIsolateReceiveMessage
   const factory RemoteFrameBufferIsolateReceiveMessage.clipBoardUpdate({
     required final String text,
   }) = RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate;
+}
 
-  const factory RemoteFrameBufferIsolateReceiveMessage.frameBufferUpdate({
+/// A framebuffer update sent from the client isolate using transferable bytes.
+///
+/// Only rectangle metadata is copied through the isolate message. Pixel payloads
+/// are moved with [TransferableTypedData] and must be materialized exactly once
+/// by the receiving isolate.
+class RemoteFrameBufferIsolateFrameBufferUpdate {
+  /// The framebuffer height in pixels.
+  final int frameBufferHeight;
+
+  /// The framebuffer width in pixels.
+  final int frameBufferWidth;
+
+  /// The rectangles included in this update.
+  final List<RemoteFrameBufferIsolateFrameBufferUpdateRectangle> rectangles;
+
+  /// The [SendPort] used to communicate back to the client isolate.
+  final SendPort sendPort;
+
+  /// Creates a transferable framebuffer update message.
+  const RemoteFrameBufferIsolateFrameBufferUpdate({
+    required this.frameBufferHeight,
+    required this.frameBufferWidth,
+    required this.rectangles,
+    required this.sendPort,
+  });
+
+  /// Converts a client update into an isolate-transferable message.
+  factory RemoteFrameBufferIsolateFrameBufferUpdate.fromClientUpdate({
     required final int frameBufferHeight,
     required final int frameBufferWidth,
     required final SendPort sendPort,
     required final RemoteFrameBufferClientUpdate update,
-  }) = RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate;
+  }) =>
+      RemoteFrameBufferIsolateFrameBufferUpdate(
+        frameBufferHeight: frameBufferHeight,
+        frameBufferWidth: frameBufferWidth,
+        rectangles: update.rectangles
+            .map(
+              RemoteFrameBufferIsolateFrameBufferUpdateRectangle
+                  .fromClientRectangle,
+            )
+            .toList(growable: false),
+        sendPort: sendPort,
+      );
+
+  /// Materializes rectangle payloads into client update rectangles.
+  Iterable<RemoteFrameBufferClientUpdateRectangle>
+      materializeRectangles() sync* {
+    for (final RemoteFrameBufferIsolateFrameBufferUpdateRectangle rectangle
+        in rectangles) {
+      yield rectangle.materialize();
+    }
+  }
+}
+
+/// A framebuffer update rectangle with a transferable byte payload.
+class RemoteFrameBufferIsolateFrameBufferUpdateRectangle {
+  /// The transferable rectangle pixel or copy-rect payload.
+  final TransferableTypedData byteData;
+
+  /// The encoding used to interpret [byteData].
+  final RemoteFrameBufferEncodingType encodingType;
+
+  /// The height in pixels.
+  final int height;
+
+  /// The width in pixels.
+  final int width;
+
+  /// The starting x offset of this rectangle.
+  final int x;
+
+  /// The starting y offset of this rectangle.
+  final int y;
+
+  /// Creates a transferable framebuffer update rectangle.
+  const RemoteFrameBufferIsolateFrameBufferUpdateRectangle({
+    required this.byteData,
+    required this.encodingType,
+    required this.height,
+    required this.width,
+    required this.x,
+    required this.y,
+  });
+
+  /// Converts a client rectangle into a transferable rectangle.
+  factory RemoteFrameBufferIsolateFrameBufferUpdateRectangle.fromClientRectangle(
+    final RemoteFrameBufferClientUpdateRectangle rectangle,
+  ) =>
+      RemoteFrameBufferIsolateFrameBufferUpdateRectangle(
+        byteData: TransferableTypedData.fromList(
+          <Uint8List>[
+            rectangle.byteData.buffer.asUint8List(
+              rectangle.byteData.offsetInBytes,
+              rectangle.byteData.lengthInBytes,
+            ),
+          ],
+        ),
+        encodingType: rectangle.encodingType,
+        height: rectangle.height,
+        width: rectangle.width,
+        x: rectangle.x,
+        y: rectangle.y,
+      );
+
+  /// Materializes [byteData] into a client update rectangle.
+  RemoteFrameBufferClientUpdateRectangle materialize() =>
+      RemoteFrameBufferClientUpdateRectangle(
+        byteData: byteData.materialize().asByteData(),
+        encodingType: encodingType,
+        height: height,
+        width: width,
+        x: x,
+        y: y,
+      );
 }
 
 /// A message that is sent to the isolate.
