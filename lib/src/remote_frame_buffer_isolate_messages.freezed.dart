@@ -12,7 +12,7 @@ part of 'remote_frame_buffer_isolate_messages.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$RemoteFrameBufferIsolateInitMessage {
@@ -24,7 +24,9 @@ mixin _$RemoteFrameBufferIsolateInitMessage {
   /// The [SendPort] used for communicating with the caller.
   SendPort get sendPort => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RemoteFrameBufferIsolateInitMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RemoteFrameBufferIsolateInitMessageCopyWith<
           RemoteFrameBufferIsolateInitMessage>
       get copyWith => throw _privateConstructorUsedError;
@@ -57,6 +59,8 @@ class _$RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RemoteFrameBufferIsolateInitMessage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -92,12 +96,12 @@ class _$RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_RemoteFrameBufferIsolateInitMessageCopyWith<$Res>
+abstract class _$$RemoteFrameBufferIsolateInitMessageImplCopyWith<$Res>
     implements $RemoteFrameBufferIsolateInitMessageCopyWith<$Res> {
-  factory _$$_RemoteFrameBufferIsolateInitMessageCopyWith(
-          _$_RemoteFrameBufferIsolateInitMessage value,
-          $Res Function(_$_RemoteFrameBufferIsolateInitMessage) then) =
-      __$$_RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res>;
+  factory _$$RemoteFrameBufferIsolateInitMessageImplCopyWith(
+          _$RemoteFrameBufferIsolateInitMessageImpl value,
+          $Res Function(_$RemoteFrameBufferIsolateInitMessageImpl) then) =
+      __$$RemoteFrameBufferIsolateInitMessageImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -109,15 +113,17 @@ abstract class _$$_RemoteFrameBufferIsolateInitMessageCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res>
+class __$$RemoteFrameBufferIsolateInitMessageImplCopyWithImpl<$Res>
     extends _$RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res,
-        _$_RemoteFrameBufferIsolateInitMessage>
-    implements _$$_RemoteFrameBufferIsolateInitMessageCopyWith<$Res> {
-  __$$_RemoteFrameBufferIsolateInitMessageCopyWithImpl(
-      _$_RemoteFrameBufferIsolateInitMessage _value,
-      $Res Function(_$_RemoteFrameBufferIsolateInitMessage) _then)
+        _$RemoteFrameBufferIsolateInitMessageImpl>
+    implements _$$RemoteFrameBufferIsolateInitMessageImplCopyWith<$Res> {
+  __$$RemoteFrameBufferIsolateInitMessageImplCopyWithImpl(
+      _$RemoteFrameBufferIsolateInitMessageImpl _value,
+      $Res Function(_$RemoteFrameBufferIsolateInitMessageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RemoteFrameBufferIsolateInitMessage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -127,7 +133,7 @@ class __$$_RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res>
     Object? unixSocketPath = null,
     Object? sendPort = null,
   }) {
-    return _then(_$_RemoteFrameBufferIsolateInitMessage(
+    return _then(_$RemoteFrameBufferIsolateInitMessageImpl(
       hostName: null == hostName
           ? _value.hostName
           : hostName // ignore: cast_nullable_to_non_nullable
@@ -154,10 +160,10 @@ class __$$_RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_RemoteFrameBufferIsolateInitMessage
+class _$RemoteFrameBufferIsolateInitMessageImpl
     with DiagnosticableTreeMixin
     implements _RemoteFrameBufferIsolateInitMessage {
-  const _$_RemoteFrameBufferIsolateInitMessage(
+  const _$RemoteFrameBufferIsolateInitMessageImpl(
       {required this.hostName,
       required this.password,
       required this.port,
@@ -195,10 +201,10 @@ class _$_RemoteFrameBufferIsolateInitMessage
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_RemoteFrameBufferIsolateInitMessage &&
+            other is _$RemoteFrameBufferIsolateInitMessageImpl &&
             (identical(other.hostName, hostName) ||
                 other.hostName == hostName) &&
             (identical(other.password, password) ||
@@ -214,13 +220,15 @@ class _$_RemoteFrameBufferIsolateInitMessage
   int get hashCode => Object.hash(
       runtimeType, hostName, password, port, unixSocketPath, sendPort);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RemoteFrameBufferIsolateInitMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$_RemoteFrameBufferIsolateInitMessageCopyWith<
-          _$_RemoteFrameBufferIsolateInitMessage>
-      get copyWith => __$$_RemoteFrameBufferIsolateInitMessageCopyWithImpl<
-          _$_RemoteFrameBufferIsolateInitMessage>(this, _$identity);
+  _$$RemoteFrameBufferIsolateInitMessageImplCopyWith<
+          _$RemoteFrameBufferIsolateInitMessageImpl>
+      get copyWith => __$$RemoteFrameBufferIsolateInitMessageImplCopyWithImpl<
+          _$RemoteFrameBufferIsolateInitMessageImpl>(this, _$identity);
 }
 
 abstract class _RemoteFrameBufferIsolateInitMessage
@@ -231,7 +239,7 @@ abstract class _RemoteFrameBufferIsolateInitMessage
           required final int port,
           required final Option<String> unixSocketPath,
           required final SendPort sendPort}) =
-      _$_RemoteFrameBufferIsolateInitMessage;
+      _$RemoteFrameBufferIsolateInitMessageImpl;
 
   @override
   String get hostName;
@@ -241,14 +249,17 @@ abstract class _RemoteFrameBufferIsolateInitMessage
   int get port;
   @override
   Option<String> get unixSocketPath;
-  @override
 
   /// The [SendPort] used for communicating with the caller.
-  SendPort get sendPort;
   @override
-  @JsonKey(ignore: true)
-  _$$_RemoteFrameBufferIsolateInitMessageCopyWith<
-          _$_RemoteFrameBufferIsolateInitMessage>
+  SendPort get sendPort;
+
+  /// Create a copy of RemoteFrameBufferIsolateInitMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RemoteFrameBufferIsolateInitMessageImplCopyWith<
+          _$RemoteFrameBufferIsolateInitMessageImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -331,40 +342,47 @@ class _$RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of RemoteFrameBufferIsolateReceiveMessage
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
-abstract class _$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateCopyWith<
+abstract class _$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImplCopyWith<
     $Res> {
-  factory _$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateCopyWith(
-          _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate value,
-          $Res Function(_$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate)
+  factory _$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImplCopyWith(
+          _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl value,
+          $Res Function(
+                  _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl)
               then) =
-      __$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateCopyWithImpl<
+      __$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImplCopyWithImpl<
           $Res>;
   @useResult
   $Res call({String text});
 }
 
 /// @nodoc
-class __$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateCopyWithImpl<
+class __$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImplCopyWithImpl<
         $Res>
     extends _$RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res,
-        _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate>
+        _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl>
     implements
-        _$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateCopyWith<$Res> {
-  __$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateCopyWithImpl(
-      _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate _value,
-      $Res Function(_$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate)
+        _$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImplCopyWith<
+            $Res> {
+  __$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImplCopyWithImpl(
+      _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl _value,
+      $Res Function(_$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl)
           _then)
       : super(_value, _then);
 
+  /// Create a copy of RemoteFrameBufferIsolateReceiveMessage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? text = null,
   }) {
-    return _then(_$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate(
+    return _then(_$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl(
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -375,10 +393,10 @@ class __$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateCopyWithImpl<
 
 /// @nodoc
 
-class _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate
+class _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl
     with DiagnosticableTreeMixin
     implements RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate {
-  const _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate(
+  const _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl(
       {required this.text});
 
   @override
@@ -399,24 +417,27 @@ class _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate &&
+            other
+                is _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl &&
             (identical(other.text, text) || other.text == text));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, text);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RemoteFrameBufferIsolateReceiveMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateCopyWith<
-          _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate>
+  _$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImplCopyWith<
+          _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl>
       get copyWith =>
-          __$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateCopyWithImpl<
-                  _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate>(
+          __$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImplCopyWithImpl<
+                  _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl>(
               this, _$identity);
 
   @override
@@ -504,24 +525,27 @@ abstract class RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate
     implements RemoteFrameBufferIsolateReceiveMessage {
   const factory RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate(
           {required final String text}) =
-      _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate;
+      _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl;
 
   String get text;
-  @JsonKey(ignore: true)
-  _$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateCopyWith<
-          _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate>
+
+  /// Create a copy of RemoteFrameBufferIsolateReceiveMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImplCopyWith<
+          _$RemoteFrameBufferIsolateReceiveMessageClipBoardUpdateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateCopyWith<
+abstract class _$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImplCopyWith<
     $Res> {
-  factory _$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateCopyWith(
-          _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate value,
+  factory _$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImplCopyWith(
+          _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl value,
           $Res Function(
-                  _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate)
+                  _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl)
               then) =
-      __$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateCopyWithImpl<
+      __$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImplCopyWithImpl<
           $Res>;
   @useResult
   $Res call(
@@ -534,19 +558,22 @@ abstract class _$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateCopyWit
 }
 
 /// @nodoc
-class __$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateCopyWithImpl<
+class __$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImplCopyWithImpl<
         $Res>
     extends _$RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res,
-        _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate>
+        _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl>
     implements
-        _$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateCopyWith<
+        _$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImplCopyWith<
             $Res> {
-  __$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateCopyWithImpl(
-      _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate _value,
-      $Res Function(_$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate)
+  __$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImplCopyWithImpl(
+      _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl _value,
+      $Res Function(
+              _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl)
           _then)
       : super(_value, _then);
 
+  /// Create a copy of RemoteFrameBufferIsolateReceiveMessage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -555,7 +582,7 @@ class __$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateCopyWithImpl<
     Object? sendPort = null,
     Object? update = null,
   }) {
-    return _then(_$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate(
+    return _then(_$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl(
       frameBufferHeight: null == frameBufferHeight
           ? _value.frameBufferHeight
           : frameBufferHeight // ignore: cast_nullable_to_non_nullable
@@ -575,6 +602,8 @@ class __$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateCopyWithImpl<
     ));
   }
 
+  /// Create a copy of RemoteFrameBufferIsolateReceiveMessage
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RemoteFrameBufferClientUpdateCopyWith<$Res> get update {
@@ -586,10 +615,10 @@ class __$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateCopyWithImpl<
 
 /// @nodoc
 
-class _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate
+class _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl
     with DiagnosticableTreeMixin
     implements RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate {
-  const _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate(
+  const _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl(
       {required this.frameBufferHeight,
       required this.frameBufferWidth,
       required this.sendPort,
@@ -622,11 +651,11 @@ class _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other
-                is _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate &&
+                is _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl &&
             (identical(other.frameBufferHeight, frameBufferHeight) ||
                 other.frameBufferHeight == frameBufferHeight) &&
             (identical(other.frameBufferWidth, frameBufferWidth) ||
@@ -640,14 +669,16 @@ class _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate
   int get hashCode => Object.hash(
       runtimeType, frameBufferHeight, frameBufferWidth, sendPort, update);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RemoteFrameBufferIsolateReceiveMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateCopyWith<
-          _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate>
+  _$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImplCopyWith<
+          _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl>
       get copyWith =>
-          __$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateCopyWithImpl<
-                  _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate>(
+          __$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImplCopyWithImpl<
+                  _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl>(
               this, _$identity);
 
   @override
@@ -741,15 +772,18 @@ abstract class RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate
           required final int frameBufferWidth,
           required final SendPort sendPort,
           required final RemoteFrameBufferClientUpdate update}) =
-      _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate;
+      _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl;
 
   int get frameBufferHeight;
   int get frameBufferWidth;
   SendPort get sendPort;
   RemoteFrameBufferClientUpdate get update;
-  @JsonKey(ignore: true)
-  _$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateCopyWith<
-          _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate>
+
+  /// Create a copy of RemoteFrameBufferIsolateReceiveMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImplCopyWith<
+          _$RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -874,37 +908,47 @@ class _$RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of RemoteFrameBufferIsolateSendMessage
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
-abstract class _$$RemoteFrameBufferIsolateSendMessageClipBoardUpdateCopyWith<
+abstract class _$$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImplCopyWith<
     $Res> {
-  factory _$$RemoteFrameBufferIsolateSendMessageClipBoardUpdateCopyWith(
-          _$RemoteFrameBufferIsolateSendMessageClipBoardUpdate value,
-          $Res Function(_$RemoteFrameBufferIsolateSendMessageClipBoardUpdate)
+  factory _$$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImplCopyWith(
+          _$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImpl value,
+          $Res Function(
+                  _$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImpl)
               then) =
-      __$$RemoteFrameBufferIsolateSendMessageClipBoardUpdateCopyWithImpl<$Res>;
+      __$$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImplCopyWithImpl<
+          $Res>;
   @useResult
   $Res call({String text});
 }
 
 /// @nodoc
-class __$$RemoteFrameBufferIsolateSendMessageClipBoardUpdateCopyWithImpl<$Res>
+class __$$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImplCopyWithImpl<
+        $Res>
     extends _$RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res,
-        _$RemoteFrameBufferIsolateSendMessageClipBoardUpdate>
+        _$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImpl>
     implements
-        _$$RemoteFrameBufferIsolateSendMessageClipBoardUpdateCopyWith<$Res> {
-  __$$RemoteFrameBufferIsolateSendMessageClipBoardUpdateCopyWithImpl(
-      _$RemoteFrameBufferIsolateSendMessageClipBoardUpdate _value,
-      $Res Function(_$RemoteFrameBufferIsolateSendMessageClipBoardUpdate) _then)
+        _$$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImplCopyWith<
+            $Res> {
+  __$$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImplCopyWithImpl(
+      _$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImpl _value,
+      $Res Function(_$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImpl)
+          _then)
       : super(_value, _then);
 
+  /// Create a copy of RemoteFrameBufferIsolateSendMessage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? text = null,
   }) {
-    return _then(_$RemoteFrameBufferIsolateSendMessageClipBoardUpdate(
+    return _then(_$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImpl(
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -915,10 +959,10 @@ class __$$RemoteFrameBufferIsolateSendMessageClipBoardUpdateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$RemoteFrameBufferIsolateSendMessageClipBoardUpdate
+class _$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImpl
     with DiagnosticableTreeMixin
     implements RemoteFrameBufferIsolateSendMessageClipBoardUpdate {
-  const _$RemoteFrameBufferIsolateSendMessageClipBoardUpdate(
+  const _$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImpl(
       {required this.text});
 
   @override
@@ -939,24 +983,26 @@ class _$RemoteFrameBufferIsolateSendMessageClipBoardUpdate
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RemoteFrameBufferIsolateSendMessageClipBoardUpdate &&
+            other is _$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImpl &&
             (identical(other.text, text) || other.text == text));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, text);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RemoteFrameBufferIsolateSendMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$RemoteFrameBufferIsolateSendMessageClipBoardUpdateCopyWith<
-          _$RemoteFrameBufferIsolateSendMessageClipBoardUpdate>
+  _$$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImplCopyWith<
+          _$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImpl>
       get copyWith =>
-          __$$RemoteFrameBufferIsolateSendMessageClipBoardUpdateCopyWithImpl<
-                  _$RemoteFrameBufferIsolateSendMessageClipBoardUpdate>(
+          __$$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImplCopyWithImpl<
+                  _$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImpl>(
               this, _$identity);
 
   @override
@@ -1086,42 +1132,50 @@ abstract class RemoteFrameBufferIsolateSendMessageClipBoardUpdate
     implements RemoteFrameBufferIsolateSendMessage {
   const factory RemoteFrameBufferIsolateSendMessageClipBoardUpdate(
           {required final String text}) =
-      _$RemoteFrameBufferIsolateSendMessageClipBoardUpdate;
+      _$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImpl;
 
   String get text;
-  @JsonKey(ignore: true)
-  _$$RemoteFrameBufferIsolateSendMessageClipBoardUpdateCopyWith<
-          _$RemoteFrameBufferIsolateSendMessageClipBoardUpdate>
+
+  /// Create a copy of RemoteFrameBufferIsolateSendMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImplCopyWith<
+          _$RemoteFrameBufferIsolateSendMessageClipBoardUpdateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$RemoteFrameBufferIsolateSendMessageKeyEventCopyWith<$Res> {
-  factory _$$RemoteFrameBufferIsolateSendMessageKeyEventCopyWith(
-          _$RemoteFrameBufferIsolateSendMessageKeyEvent value,
-          $Res Function(_$RemoteFrameBufferIsolateSendMessageKeyEvent) then) =
-      __$$RemoteFrameBufferIsolateSendMessageKeyEventCopyWithImpl<$Res>;
+abstract class _$$RemoteFrameBufferIsolateSendMessageKeyEventImplCopyWith<
+    $Res> {
+  factory _$$RemoteFrameBufferIsolateSendMessageKeyEventImplCopyWith(
+          _$RemoteFrameBufferIsolateSendMessageKeyEventImpl value,
+          $Res Function(_$RemoteFrameBufferIsolateSendMessageKeyEventImpl)
+              then) =
+      __$$RemoteFrameBufferIsolateSendMessageKeyEventImplCopyWithImpl<$Res>;
   @useResult
   $Res call({bool down, int key});
 }
 
 /// @nodoc
-class __$$RemoteFrameBufferIsolateSendMessageKeyEventCopyWithImpl<$Res>
+class __$$RemoteFrameBufferIsolateSendMessageKeyEventImplCopyWithImpl<$Res>
     extends _$RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res,
-        _$RemoteFrameBufferIsolateSendMessageKeyEvent>
-    implements _$$RemoteFrameBufferIsolateSendMessageKeyEventCopyWith<$Res> {
-  __$$RemoteFrameBufferIsolateSendMessageKeyEventCopyWithImpl(
-      _$RemoteFrameBufferIsolateSendMessageKeyEvent _value,
-      $Res Function(_$RemoteFrameBufferIsolateSendMessageKeyEvent) _then)
+        _$RemoteFrameBufferIsolateSendMessageKeyEventImpl>
+    implements
+        _$$RemoteFrameBufferIsolateSendMessageKeyEventImplCopyWith<$Res> {
+  __$$RemoteFrameBufferIsolateSendMessageKeyEventImplCopyWithImpl(
+      _$RemoteFrameBufferIsolateSendMessageKeyEventImpl _value,
+      $Res Function(_$RemoteFrameBufferIsolateSendMessageKeyEventImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RemoteFrameBufferIsolateSendMessage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? down = null,
     Object? key = null,
   }) {
-    return _then(_$RemoteFrameBufferIsolateSendMessageKeyEvent(
+    return _then(_$RemoteFrameBufferIsolateSendMessageKeyEventImpl(
       down: null == down
           ? _value.down
           : down // ignore: cast_nullable_to_non_nullable
@@ -1136,10 +1190,10 @@ class __$$RemoteFrameBufferIsolateSendMessageKeyEventCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$RemoteFrameBufferIsolateSendMessageKeyEvent
+class _$RemoteFrameBufferIsolateSendMessageKeyEventImpl
     with DiagnosticableTreeMixin
     implements RemoteFrameBufferIsolateSendMessageKeyEvent {
-  const _$RemoteFrameBufferIsolateSendMessageKeyEvent(
+  const _$RemoteFrameBufferIsolateSendMessageKeyEventImpl(
       {required this.down, required this.key});
 
   @override
@@ -1163,10 +1217,10 @@ class _$RemoteFrameBufferIsolateSendMessageKeyEvent
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RemoteFrameBufferIsolateSendMessageKeyEvent &&
+            other is _$RemoteFrameBufferIsolateSendMessageKeyEventImpl &&
             (identical(other.down, down) || other.down == down) &&
             (identical(other.key, key) || other.key == key));
   }
@@ -1174,14 +1228,17 @@ class _$RemoteFrameBufferIsolateSendMessageKeyEvent
   @override
   int get hashCode => Object.hash(runtimeType, down, key);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RemoteFrameBufferIsolateSendMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$RemoteFrameBufferIsolateSendMessageKeyEventCopyWith<
-          _$RemoteFrameBufferIsolateSendMessageKeyEvent>
+  _$$RemoteFrameBufferIsolateSendMessageKeyEventImplCopyWith<
+          _$RemoteFrameBufferIsolateSendMessageKeyEventImpl>
       get copyWith =>
-          __$$RemoteFrameBufferIsolateSendMessageKeyEventCopyWithImpl<
-              _$RemoteFrameBufferIsolateSendMessageKeyEvent>(this, _$identity);
+          __$$RemoteFrameBufferIsolateSendMessageKeyEventImplCopyWithImpl<
+                  _$RemoteFrameBufferIsolateSendMessageKeyEventImpl>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1309,25 +1366,28 @@ class _$RemoteFrameBufferIsolateSendMessageKeyEvent
 abstract class RemoteFrameBufferIsolateSendMessageKeyEvent
     implements RemoteFrameBufferIsolateSendMessage {
   const factory RemoteFrameBufferIsolateSendMessageKeyEvent(
-      {required final bool down,
-      required final int key}) = _$RemoteFrameBufferIsolateSendMessageKeyEvent;
+          {required final bool down, required final int key}) =
+      _$RemoteFrameBufferIsolateSendMessageKeyEventImpl;
 
   bool get down;
   int get key;
-  @JsonKey(ignore: true)
-  _$$RemoteFrameBufferIsolateSendMessageKeyEventCopyWith<
-          _$RemoteFrameBufferIsolateSendMessageKeyEvent>
+
+  /// Create a copy of RemoteFrameBufferIsolateSendMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RemoteFrameBufferIsolateSendMessageKeyEventImplCopyWith<
+          _$RemoteFrameBufferIsolateSendMessageKeyEventImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$RemoteFrameBufferIsolateSendMessagePointerEventCopyWith<
+abstract class _$$RemoteFrameBufferIsolateSendMessagePointerEventImplCopyWith<
     $Res> {
-  factory _$$RemoteFrameBufferIsolateSendMessagePointerEventCopyWith(
-          _$RemoteFrameBufferIsolateSendMessagePointerEvent value,
-          $Res Function(_$RemoteFrameBufferIsolateSendMessagePointerEvent)
+  factory _$$RemoteFrameBufferIsolateSendMessagePointerEventImplCopyWith(
+          _$RemoteFrameBufferIsolateSendMessagePointerEventImpl value,
+          $Res Function(_$RemoteFrameBufferIsolateSendMessagePointerEventImpl)
               then) =
-      __$$RemoteFrameBufferIsolateSendMessagePointerEventCopyWithImpl<$Res>;
+      __$$RemoteFrameBufferIsolateSendMessagePointerEventImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
       {bool button1Down,
@@ -1343,16 +1403,19 @@ abstract class _$$RemoteFrameBufferIsolateSendMessagePointerEventCopyWith<
 }
 
 /// @nodoc
-class __$$RemoteFrameBufferIsolateSendMessagePointerEventCopyWithImpl<$Res>
+class __$$RemoteFrameBufferIsolateSendMessagePointerEventImplCopyWithImpl<$Res>
     extends _$RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res,
-        _$RemoteFrameBufferIsolateSendMessagePointerEvent>
+        _$RemoteFrameBufferIsolateSendMessagePointerEventImpl>
     implements
-        _$$RemoteFrameBufferIsolateSendMessagePointerEventCopyWith<$Res> {
-  __$$RemoteFrameBufferIsolateSendMessagePointerEventCopyWithImpl(
-      _$RemoteFrameBufferIsolateSendMessagePointerEvent _value,
-      $Res Function(_$RemoteFrameBufferIsolateSendMessagePointerEvent) _then)
+        _$$RemoteFrameBufferIsolateSendMessagePointerEventImplCopyWith<$Res> {
+  __$$RemoteFrameBufferIsolateSendMessagePointerEventImplCopyWithImpl(
+      _$RemoteFrameBufferIsolateSendMessagePointerEventImpl _value,
+      $Res Function(_$RemoteFrameBufferIsolateSendMessagePointerEventImpl)
+          _then)
       : super(_value, _then);
 
+  /// Create a copy of RemoteFrameBufferIsolateSendMessage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1367,7 +1430,7 @@ class __$$RemoteFrameBufferIsolateSendMessagePointerEventCopyWithImpl<$Res>
     Object? x = null,
     Object? y = null,
   }) {
-    return _then(_$RemoteFrameBufferIsolateSendMessagePointerEvent(
+    return _then(_$RemoteFrameBufferIsolateSendMessagePointerEventImpl(
       button1Down: null == button1Down
           ? _value.button1Down
           : button1Down // ignore: cast_nullable_to_non_nullable
@@ -1414,10 +1477,10 @@ class __$$RemoteFrameBufferIsolateSendMessagePointerEventCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$RemoteFrameBufferIsolateSendMessagePointerEvent
+class _$RemoteFrameBufferIsolateSendMessagePointerEventImpl
     with DiagnosticableTreeMixin
     implements RemoteFrameBufferIsolateSendMessagePointerEvent {
-  const _$RemoteFrameBufferIsolateSendMessagePointerEvent(
+  const _$RemoteFrameBufferIsolateSendMessagePointerEventImpl(
       {required this.button1Down,
       required this.button2Down,
       required this.button3Down,
@@ -1474,10 +1537,10 @@ class _$RemoteFrameBufferIsolateSendMessagePointerEvent
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RemoteFrameBufferIsolateSendMessagePointerEvent &&
+            other is _$RemoteFrameBufferIsolateSendMessagePointerEventImpl &&
             (identical(other.button1Down, button1Down) ||
                 other.button1Down == button1Down) &&
             (identical(other.button2Down, button2Down) ||
@@ -1512,14 +1575,16 @@ class _$RemoteFrameBufferIsolateSendMessagePointerEvent
       x,
       y);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RemoteFrameBufferIsolateSendMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$RemoteFrameBufferIsolateSendMessagePointerEventCopyWith<
-          _$RemoteFrameBufferIsolateSendMessagePointerEvent>
+  _$$RemoteFrameBufferIsolateSendMessagePointerEventImplCopyWith<
+          _$RemoteFrameBufferIsolateSendMessagePointerEventImpl>
       get copyWith =>
-          __$$RemoteFrameBufferIsolateSendMessagePointerEventCopyWithImpl<
-                  _$RemoteFrameBufferIsolateSendMessagePointerEvent>(
+          __$$RemoteFrameBufferIsolateSendMessagePointerEventImplCopyWithImpl<
+                  _$RemoteFrameBufferIsolateSendMessagePointerEventImpl>(
               this, _$identity);
 
   @override
@@ -1661,7 +1726,7 @@ abstract class RemoteFrameBufferIsolateSendMessagePointerEvent
           required final bool button8Down,
           required final int x,
           required final int y}) =
-      _$RemoteFrameBufferIsolateSendMessagePointerEvent;
+      _$RemoteFrameBufferIsolateSendMessagePointerEventImpl;
 
   bool get button1Down;
   bool get button2Down;
@@ -1673,40 +1738,48 @@ abstract class RemoteFrameBufferIsolateSendMessagePointerEvent
   bool get button8Down;
   int get x;
   int get y;
-  @JsonKey(ignore: true)
-  _$$RemoteFrameBufferIsolateSendMessagePointerEventCopyWith<
-          _$RemoteFrameBufferIsolateSendMessagePointerEvent>
+
+  /// Create a copy of RemoteFrameBufferIsolateSendMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RemoteFrameBufferIsolateSendMessagePointerEventImplCopyWith<
+          _$RemoteFrameBufferIsolateSendMessagePointerEventImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$RemoteFrameBufferIsolateSendMessageUpdateRequestCopyWith<
+abstract class _$$RemoteFrameBufferIsolateSendMessageUpdateRequestImplCopyWith<
     $Res> {
-  factory _$$RemoteFrameBufferIsolateSendMessageUpdateRequestCopyWith(
-          _$RemoteFrameBufferIsolateSendMessageUpdateRequest value,
-          $Res Function(_$RemoteFrameBufferIsolateSendMessageUpdateRequest)
+  factory _$$RemoteFrameBufferIsolateSendMessageUpdateRequestImplCopyWith(
+          _$RemoteFrameBufferIsolateSendMessageUpdateRequestImpl value,
+          $Res Function(_$RemoteFrameBufferIsolateSendMessageUpdateRequestImpl)
               then) =
-      __$$RemoteFrameBufferIsolateSendMessageUpdateRequestCopyWithImpl<$Res>;
+      __$$RemoteFrameBufferIsolateSendMessageUpdateRequestImplCopyWithImpl<
+          $Res>;
 }
 
 /// @nodoc
-class __$$RemoteFrameBufferIsolateSendMessageUpdateRequestCopyWithImpl<$Res>
+class __$$RemoteFrameBufferIsolateSendMessageUpdateRequestImplCopyWithImpl<$Res>
     extends _$RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res,
-        _$RemoteFrameBufferIsolateSendMessageUpdateRequest>
+        _$RemoteFrameBufferIsolateSendMessageUpdateRequestImpl>
     implements
-        _$$RemoteFrameBufferIsolateSendMessageUpdateRequestCopyWith<$Res> {
-  __$$RemoteFrameBufferIsolateSendMessageUpdateRequestCopyWithImpl(
-      _$RemoteFrameBufferIsolateSendMessageUpdateRequest _value,
-      $Res Function(_$RemoteFrameBufferIsolateSendMessageUpdateRequest) _then)
+        _$$RemoteFrameBufferIsolateSendMessageUpdateRequestImplCopyWith<$Res> {
+  __$$RemoteFrameBufferIsolateSendMessageUpdateRequestImplCopyWithImpl(
+      _$RemoteFrameBufferIsolateSendMessageUpdateRequestImpl _value,
+      $Res Function(_$RemoteFrameBufferIsolateSendMessageUpdateRequestImpl)
+          _then)
       : super(_value, _then);
+
+  /// Create a copy of RemoteFrameBufferIsolateSendMessage
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 
-class _$RemoteFrameBufferIsolateSendMessageUpdateRequest
+class _$RemoteFrameBufferIsolateSendMessageUpdateRequestImpl
     with DiagnosticableTreeMixin
     implements RemoteFrameBufferIsolateSendMessageUpdateRequest {
-  const _$RemoteFrameBufferIsolateSendMessageUpdateRequest();
+  const _$RemoteFrameBufferIsolateSendMessageUpdateRequestImpl();
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -1716,15 +1789,16 @@ class _$RemoteFrameBufferIsolateSendMessageUpdateRequest
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type',
-        'RemoteFrameBufferIsolateSendMessage.frameBufferUpdateRequest'));
+    properties
+      ..add(DiagnosticsProperty('type',
+          'RemoteFrameBufferIsolateSendMessage.frameBufferUpdateRequest'));
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RemoteFrameBufferIsolateSendMessageUpdateRequest);
+            other is _$RemoteFrameBufferIsolateSendMessageUpdateRequestImpl);
   }
 
   @override
@@ -1856,5 +1930,5 @@ class _$RemoteFrameBufferIsolateSendMessageUpdateRequest
 abstract class RemoteFrameBufferIsolateSendMessageUpdateRequest
     implements RemoteFrameBufferIsolateSendMessage {
   const factory RemoteFrameBufferIsolateSendMessageUpdateRequest() =
-      _$RemoteFrameBufferIsolateSendMessageUpdateRequest;
+      _$RemoteFrameBufferIsolateSendMessageUpdateRequestImpl;
 }
