@@ -105,7 +105,7 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
       () {},
       (final Isolate isolate) => isolate.kill(),
     );
-    RawKeyboard.instance.removeListener(_rawKeyEventListener);
+    HardwareKeyboard.instance.removeHandler(_keyEventListener);
     super.dispose();
   }
 
@@ -113,7 +113,7 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
   void initState() {
     super.initState();
     _monitorClipBoard();
-    RawKeyboard.instance.addListener(_rawKeyEventListener);
+    HardwareKeyboard.instance.addHandler(_keyEventListener);
     unawaited(_initAsync());
   }
 
@@ -332,16 +332,18 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
     );
   }
 
-  void _rawKeyEventListener(final RawKeyEvent rawKeyEvent) =>
-      _isolateSendPort.match(
-        () {},
-        (final SendPort sendPort) => sendPort.send(
-          RemoteFrameBufferIsolateSendMessage.keyEvent(
-            down: rawKeyEvent.isKeyPressed(rawKeyEvent.logicalKey),
-            key: rawKeyEvent.logicalKey.asXWindowSystemKey(),
-          ),
+  bool _keyEventListener(final KeyEvent keyEvent) {
+    _isolateSendPort.match(
+      () {},
+      (final SendPort sendPort) => sendPort.send(
+        RemoteFrameBufferIsolateSendMessage.keyEvent(
+          down: keyEvent is KeyDownEvent || keyEvent is KeyRepeatEvent,
+          key: keyEvent.logicalKey.asXWindowSystemKey(),
         ),
-      );
+      ),
+    );
+    return false;
+  }
 
   /// Updates [frameBuffer] with the given [rectangle]s.
   @visibleForTesting
